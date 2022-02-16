@@ -14,12 +14,16 @@ $$
 
 # 频率派
 
-$p(x|\theta)$中，$\theta$是一个常量。对于$N$个观测来说，观测集的概率为$p(X|\theta)\mathop{=}\limits_{i_{id}}\prod_{i-1}^{N}p(x_{i}|\theta)$。
+$p(x|\theta)$中$，\theta$是一个常量。对于$N$个观测来说，观测集的概率为$p(X|\theta)\mathop{=}\limits_{iid}\prod_{i-1}^{N}p(x_{i}|\theta)$。
 
 为了求$\theta$，采用最大对数似然估计MLE方法：
 $$
-\theta_{MLE}=\mathop{argmax}\limits_{\theta}\log{p(X|\theta)}\mathop{=}\limits_{i_{id}}\mathop{argmax}\limits_{\theta}\sum_{i=1}^{N}{\log{p(x_i|\theta)}}
+\theta_{MLE}=\mathop{argmax}\limits_{\theta}\log{p(X|\theta)}\mathop{=}\limits_{iid}\mathop{argmax}\limits_{\theta}\sum_{i=1}^{N}{\log{p(x_i|\theta)}}
 $$
+
+其中$iid$即 $ independent \& identically\;distributed$，独立同分布。
+
+<!--more-->
 
 ## 贝叶斯派
 
@@ -29,11 +33,11 @@ $$
 $$
 p(\theta|X)=\frac{p(X|\theta)\cdot p(\theta)}{p(X)}=\frac{p(X|\theta)\cdot p(\theta)}{\int\limits_{\theta}{p(\theta)d\theta}}
 $$
-为了求$\theta$的值，我们使用最大后验概率MAP：
+为了求$\theta$的值，我们使用最大后验概率估计MAP：
 $$
 \theta_{MAP}=\mathop{argmax}\limits _{\theta}p(\theta|X)=\mathop{argmax}\limits _{\theta}p(X|\theta)\cdot p(\theta)
 $$
-由于分母和$\theta$没有关系。求解这个$\theta$值后计算$\frac{p(X|\theta)\cdot p(\theta)}{\int\limits _{\theta}p(X|\theta)\cdot p(\theta)d\theta}$，就得到了参数的后验概率。其中$\p(X|\theta)$叫做似然，是模型分布。得到了参数的后验分布后，我们就可以将这个分布用作预测贝叶斯预测：
+由于分母和$\theta$没有关系。求解这个$\theta$值后计算$\frac{p(X|\theta)\cdot p(\theta)}{\int\limits _{\theta}p(X|\theta)\cdot p(\theta)d\theta}$，就得到了参数的后验概率。其中$p(X|\theta)$叫做似然，是模型分布。得到了参数的后验分布后，我们就可以将这个分布用作预测贝叶斯预测：
 $$
 p(x_{new}|X)=\int\limits _{\theta}p(x_{new}|\theta)\cdot p(\theta|X)d\theta
 $$
