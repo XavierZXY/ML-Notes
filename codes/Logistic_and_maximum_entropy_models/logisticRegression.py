@@ -65,14 +65,14 @@ def predict(w, x):
     
     return 0
 
-def logisticRegression(trainDataList, trainLabelList, iter=200):
+def logisticRegression(trainDataList, trainLabelList, iter=20):
     """
     逻辑斯蒂回归训练
 
     @Args:
         trainDataList: 训练集
         trainLabelList: 训练集标签
-        iter: 迭代次数, default=200
+        iter: 迭代次数, default=20
     @Returns:
         w: 训练得到的权重
     
