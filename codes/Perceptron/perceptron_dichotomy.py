@@ -1,12 +1,3 @@
-from base64 import b16decode
-from cProfile import label
-from email import header
-from re import I
-from tkinter.tix import MAIN
-from pip import main
-
-from sklearn.metrics import label_ranking_average_precision_score
-
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
@@ -17,21 +8,29 @@ from sklearn.metrics import label_ranking_average_precision_score
 @Description : 感知机算法实现
 """
 
+from base64 import b16decode
+from cProfile import label
+from email import header
+from re import I
+from tkinter.tix import MAIN
+from pip import main
+from sklearn.metrics import label_ranking_average_precision_score
 import numpy as np
 import time
 
+
 def loadData(fileName):
     """
-    
+
     @Args:
         fileName: 需要加载的数据集路径
-    
+
     @Returns:
         dataArr: list形式的数据集
         labelArr: list形式的标签
-    
+
     @Riase:
-    
+
     """
 
     print("Start to read data...")
@@ -45,7 +44,7 @@ def loadData(fileName):
         # 对每一行数据按切割符','进行切割，返回字段列表
         curLine = line.strip().split(',')
         # Mnist有0-9个标记，由于是二分类任务，所以将>=5的作为1，<5的作为-1
-        if int(curLine[0])>= 5:
+        if int(curLine[0]) >= 5:
             lableArr.append(1)
         else:
             lableArr.append(-1)
@@ -55,6 +54,7 @@ def loadData(fileName):
     # 返回data和label
     return dataArr, lableArr
 
+
 def perceptron(dataArr, labelArr, iter=50):
     """
     感知机训练
@@ -62,12 +62,12 @@ def perceptron(dataArr, labelArr, iter=50):
         dataArr:训练集数据
         labelArr: 训练集标签
         iter: 迭代次数，默认50
-    
+
     @Returns:
         w, b: 训练后的权重
-    
+
     @Riase:
-    
+
     """
 
     print("Start to trains...")
@@ -104,6 +104,7 @@ def perceptron(dataArr, labelArr, iter=50):
     # 返回训练完的参数
     return w, b
 
+
 def model_test(dataArr, labelArr, w, b):
     """
     测试准确率
@@ -113,12 +114,12 @@ def model_test(dataArr, labelArr, w, b):
         iter: 迭代次数，默认50
         w: 训练得到的权重
         b: 训练得到的偏置
-    
+
     @Returns:
         accruRate: 准确率
-    
+
     @Riase:
-    
+
     """
 
     print("Start to test...")
@@ -138,11 +139,13 @@ def model_test(dataArr, labelArr, w, b):
         yi = labelMat[i]
         # 获得运算结果
         result = -1 * yi * (w * xi.T + b)
-        if result >= 0: errorCnt += 1
+        if result >= 0:
+            errorCnt += 1
     # 正确率
     accruRate = 1 - (errorCnt / m)
 
     return accruRate
+
 
 if __name__ == '__main__':
     # 获取当前时间
@@ -152,15 +155,15 @@ if __name__ == '__main__':
     trainData, trainLabel = loadData('../data/mnist_train.csv')
     # 获取测试及标签
     testData, testLabel = loadData('../data/mnist_train.csv')
-    
-    #训练获得权重
-    w, b = perceptron(trainData, trainLabel, iter = 30)
-    #进行测试，获得正确率
+
+    # 训练获得权重
+    w, b = perceptron(trainData, trainLabel, iter=30)
+    # 进行测试，获得正确率
     accruRate = model_test(testData, testLabel, w, b)
 
-    #获取当前时间，作为结束时间
+    # 获取当前时间，作为结束时间
     end = time.time()
-    #显示正确率
+    # 显示正确率
     print('accuracy rate is:', accruRate)
-    #显示用时时长
+    # 显示用时时长
     print('time span:', end - start)
