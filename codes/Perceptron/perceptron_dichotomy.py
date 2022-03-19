@@ -8,13 +8,6 @@
 @Description : 感知机算法实现
 """
 
-from base64 import b16decode
-from cProfile import label
-from email import header
-from re import I
-from tkinter.tix import MAIN
-from pip import main
-from sklearn.metrics import label_ranking_average_precision_score
 import numpy as np
 import time
 

@@ -80,3 +80,68 @@ class SVM:
         self.E = [0 * self.trainLabelMat[i, 0]
                   for i in range(self.trainLabelMat.shape[0])]  # SMO运算过程中的Ei
         self.supportVecIndex = []
+
+def calaKernel(self):
+    """
+    计算核函数，使用的是高斯核
+    @Args:
+    
+    @Returns:
+        k: 高斯核矩阵
+    
+    @Riase:
+    
+    """
+    # 初始化高斯核结果矩阵 大小 = 训练集长度m * 训练集长度m
+    k = [[0 for i in range(self.m)] for j in range(self.m)]
+
+    # 大循环遍历Xi
+    for i in range(self.m):
+        if i % 100 == 0:
+            print(f'construct the kernel: {i}, {self.m}')
+
+        X = self.trainDataMat[i, :]
+
+        for j in range(i, self.m):
+            Z = self.trainDataMat[j, :]
+            result = (X - Z) * (X - Z).T
+            result = np.exp(-1 * result / (2 * self.sigma**2))
+
+            k[i][j] = result
+            k[j][i] = result
+        
+    # 返回高斯核矩阵
+    return k
+
+def isStatisfyKKT(self, i):
+    """
+    判断第i个alpha是否满足KKT条件
+    @Args:
+        i: alpha的下标
+    
+    @Returns:
+        True: 满足
+        False: 不满足
+    
+    @Riase:
+    
+    """
+    gxi =self.calc_gxi(i)
+    yi = self.trainLabelMat[i]
+
+    #判断依据参照“7.4.2 变量的选择方法”中“1.第1个变量的选择”
+    #式7.111到7.113
+    #--------------------
+    #依据7.111
+    if (math.fabs(self.alpha[i]) < self.toler) and (yi * gxi >= 1):
+        return True
+    #依据7.113
+    elif (math.fabs(self.alpha[i] - self.C) < self.toler) and (yi * gxi <= 1):
+        return True
+    #依据7.112
+    elif (self.alpha[i] > -self.toler) and (self.alpha[i] < (self.C + self.toler)) \
+            and (math.fabs(yi * gxi - 1) < self.toler):
+        return True
+
+    return False
+
